@@ -9,7 +9,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from "@react-navigation/native";
-import Post from './PostView';
+import renderPost from './Post';
 import Toast from 'react-native-simple-toast';
 import url from './url';
 
@@ -74,65 +74,37 @@ const HomeScreen = () => {
     prep();
   }, [isFocused]); // Trigged without condition
 
-  const renderPost = (post) => {
-    // console.log(post)
-    return (
-      <View style={post.index == 0 ? styles.post_top : styles.post}>
-        <Post data={post.item} />
-      </View>
-    );
-  }
-
   return(
     <View>
       {content.length > 0 ?
-        <View style={styles.individual_container}>
-          <View style={styles.list_container}>
-            <FlatList data={content} renderItem={renderPost} onRefresh={() => onRefresh()} refreshing={refreshing}/>
-          </View>
+        <View style={styles.container}>
+          <FlatList data={content} renderItem={renderPost} onRefresh={() => onRefresh()} refreshing={refreshing}/>
         </View>
         :
-        <View style={styles.individual_container}>
-          <Text style={styles.nopost_text}>Don't have anything yet...</Text>
+        <View style={styles.container_no_content}>
+          <Text style={styles.no_content_text}>Don't have anything yet</Text>
+          <Text style={styles.no_content_text}>(⌐■_■) !</Text>
         </View>}
     </View>
   )
 };
 
 const styles = StyleSheet.create({
-  individual_container: {
+  container: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#F6F6F6'
+  },
+  container_no_content: {
     width: '100%',
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center'
   },
-  list_container: {
-    flex: 1,
-    width: '100%'
-  },
-  post: {
-    marginBottom: 18,
-    marginLeft: 18,
-    marginRight: 18,
-    padding: 18,
-    backgroundColor: '#E2E2E2',
-    borderColor: '#E2E2E2',
-    borderRadius: 8,
-    borderWidth: 2,
-  },
-  post_top: {
-    margin: 18,
-    padding: 18,
-    backgroundColor: '#E2E2E2',
-    borderColor: '#E2E2E2',
-    borderRadius: 8,
-    borderWidth: 2,
-  },
-  nopost_text: {
+  no_content_text: {
     color: 'gray',
-    fontSize: 15
+    fontSize: 17,
   }
 });
-
 
 export default HomeScreen;
