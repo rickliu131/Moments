@@ -17,6 +17,12 @@ const HomeScreen = () => {
 
   const isFocused = useIsFocused();
 
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = async() => {
+    setRefreshing(true);
+    loadContent().then(() => setRefreshing(false));
+  };
+
   const [content, setContent] = useState([]);
   useEffect(() => console.log(`'Content' just got updated -> ${content}`), [content]);
 
@@ -81,7 +87,9 @@ const HomeScreen = () => {
     <View>
       {content.length > 0 ?
         <View style={styles.individual_container}>
-          <View style={styles.list_container}><FlatList data={content} renderItem={renderPost}/></View>
+          <View style={styles.list_container}>
+            <FlatList data={content} renderItem={renderPost} onRefresh={() => onRefresh()} refreshing={refreshing}/>
+          </View>
         </View>
         :
         <View style={styles.individual_container}>
