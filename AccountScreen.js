@@ -150,7 +150,7 @@ const AccountScreen = () => {
       <View style={styles.individual_container}>
         <View style={styles.title_all_container}>
           <View><Text style={styles.title_text}>Login to Your Account</Text></View>
-          <View><Text style={styles.title_note_text}>(New users are automatically registered)</Text></View>
+          <View><Text style={styles.title_note_text}>(New users will be automatically registered)</Text></View>
         </View>
         <View style={styles.input_all_container}>
           <View style={styles.input_labels_container}>

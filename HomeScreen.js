@@ -70,8 +70,11 @@ const HomeScreen = () => {
   }, [isFocused]); // Trigged without condition
 
   const renderPost = (post) => {
+    // console.log(post)
     return (
-      <Post data={post.item} />
+      <View style={post.index == 0 ? styles.post_top : styles.post}>
+        <Post data={post.item} />
+      </View>
     );
   }
 
@@ -80,7 +83,6 @@ const HomeScreen = () => {
       {content.length > 0 ?
         <View style={styles.individual_container}>
           <View style={styles.list_container}><FlatList data={content} renderItem={renderPost}/></View>
-          <View style={styles.button_container}><MyButton title='Refresh' onPress={() => loadContent()}/></View>
         </View>
         :
         <View style={styles.individual_container}>
@@ -98,11 +100,26 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   list_container: {
-    flex: 0.95,
-    width: '85%'
+    flex: 1,
+    width: '100%'
   },
-  button_container: {
-    margin: 7
+  post: {
+    marginBottom: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    padding: 20,
+    backgroundColor: '#E2E2E2',
+    borderColor: '#E2E2E2',
+    borderRadius: 8,
+    borderWidth: 2,
+  },
+  post_top: {
+    margin: 20,
+    padding: 20,
+    backgroundColor: '#E2E2E2',
+    borderColor: '#E2E2E2',
+    borderRadius: 8,
+    borderWidth: 2,
   },
   nopost_text: {
     color: 'gray',
