@@ -18,21 +18,21 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   second: {
-    paddingTop: 3,
-    paddingBottom: 3
+    paddingTop: 5,
+    paddingBottom: 4
   },
   third: {},
   date: {
-    fontSize: 15,
+    fontSize: 16,
     color: 'slategray',
   },
   text: {
     color: 'gray',
-    fontSize: 15,
+    fontSize: 16,
   },
   id: {
     color: '#8C826B',
-    fontSize: 15,
+    fontSize: 16,
     textAlign: 'right'
   }
 });
