@@ -13,23 +13,6 @@ const Post = ({data}) => {
 }
 
 const styles = StyleSheet.create({
-  container_old: {
-    marginTop: 20,
-    padding: 20,
-    borderColor: '#8D8D8D',
-    borderRadius: 8,
-    borderWidth: 2,
-  },
-  container: {
-    marginTop: 20,
-    marginLeft: 20,
-    marginRight: 20,
-    padding: 20,
-    backgroundColor: '#E2E2E2',
-    borderColor: '#E2E2E2',
-    borderRadius: 8,
-    borderWidth: 2,
-  },
   first: {
     flexDirection: 'row',
     justifyContent: 'space-between'

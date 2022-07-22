@@ -9,9 +9,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from "@react-navigation/native";
-import Post from './DiaryView';
+import Post from './PostView';
 import Toast from 'react-native-simple-toast';
-import MyButton from './MyButton';
 import url from './url';
 
 const HomeScreen = () => {
