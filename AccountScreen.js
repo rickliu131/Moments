@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
 import url from './url';
@@ -99,6 +99,12 @@ const AccountScreen = () => {
           if (data_login.ok == 1) {
             const cookie = res_login.headers.get('Set-Cookie');
             await AsyncStorage.setItem('@cookie', cookie);
+            // 7.23 2022 added
+            // also store the user_id
+            // for post operations on the readings screen
+            // 后面update()中 等 userInfo set好的再拿其中的user_id store也可以？更好？
+            await AsyncStorage.setItem('@user_id', id);
+            //
             console.log(`Cookie[${cookie}] has been saved locally...`);
             console.log('Logged In');
             Toast.show('Logged In🎉');
@@ -127,6 +133,10 @@ const AccountScreen = () => {
   const logout = async() => {
     await fetch(url.logout);
     await AsyncStorage.removeItem('@cookie');
+    // 7.23 2022 added
+    // since also stored user_id, not delete if logout
+    await AsyncStorage.removeItem('@user_id');
+    //
     //userInfo will be wiped automatically in update()
     Toast.show('Logged Out👌');
     await update();

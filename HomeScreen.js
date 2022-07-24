@@ -12,6 +12,8 @@ import { useIsFocused } from "@react-navigation/native";
 import renderPost from './Post';
 import Toast from 'react-native-simple-toast';
 import url from './url';
+import UserIDContext from './Context';
+
 
 const HomeScreen = () => {
 
@@ -32,7 +34,11 @@ const HomeScreen = () => {
 
     try {
       await fetch(url.clearCookie);
-      const res = await fetch(url.getPosts,{
+      // 7.23 2022
+      // experimental
+      // changed this from 'url.getPosts' to 'url.getPostsAll' to get all posts
+      // rather than posts belong to the current user
+      const res = await fetch(url.getPostsAll,{
         headers: {
           'Cookie': await AsyncStorage.getItem('@cookie')
         }
@@ -74,11 +80,27 @@ const HomeScreen = () => {
     prep();
   }, [isFocused]); // Trigged without condition
 
+
+  //7.23 2022 added
+  //context, pass user_id
+
+  const [userID, setUserID] = useState('')
+  useEffect(() => {
+    AsyncStorage.getItem('@user_id')
+    .then((value) => {
+      setUserID(value)
+    })
+  })
+  
+
   return(
     <View>
       {content.length > 0 ?
         <View style={styles.container}>
-          <FlatList data={content} renderItem={renderPost} onRefresh={() => onRefresh()} refreshing={refreshing}/>
+          <UserIDContext.Provider value={userID}>
+            <FlatList data={content} renderItem={renderPost} onRefresh={() => onRefresh()} refreshing={refreshing}/>
+          </UserIDContext.Provider>
+          
         </View>
         :
         <View style={styles.container_no_content}>

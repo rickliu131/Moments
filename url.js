@@ -12,5 +12,7 @@ const url = {
   addPost: base + '/add_post',
   delPost: base + '/del_post',
   clearCookie: base + '/clear_cookie',
+  getPostsAll: base + '/get_posts_all', 
 };
 export default url;
+//7.23 2022 experimental added getPostsAll
