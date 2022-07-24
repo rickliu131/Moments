@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ToastAndroid } from 'react-native';
+import { View, Text, StyleSheet, Modal, Pressable, Alert} from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { GestureHandlerRootView, RectButton } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
 import url from './url';
 import UserIDContext from './Context';
+
+import { ColorButton, MyButton } from './MyButton';
 
 
 const getProcessedDate = (s) => {
@@ -42,47 +44,71 @@ const likePost = (post_data) => {
 
 
 
-const rightContent =  (post) => {
-  // console.log(post_data)
-
-  const rectButtonsGenStyle = StyleSheet.create({
-    flexDirection: 'row',
-    marginBottom: 8,
-    marginTop: (post.index == 0 ? 8 : 0)
-  });
-
-
-  return (
-
-    <View style={rectButtonsGenStyle}>
-      <UserIDContext.Consumer>
-      {(userID) => (
-        userID == post.item.USER_ID ? 
-        <RectButton style={{backgroundColor: 'gray', padding: 30}} onPress={() => deletePost(post.item)}>
-          <Text style={{marginTop: 2, fontSize: 16, color: '#FAFAFA', fontWeight: '500'}}>Delete</Text>
-        </RectButton> : <View></View>
-      )}
-      </UserIDContext.Consumer>
-      <RectButton style={{backgroundColor: 'tomato', padding: 30}} onPress={() => likePost(post.item)}>
-        <Text style={{marginTop: 2, fontSize: 16, color: '#FAFAFA', fontWeight: '500'}}> Like </Text>
-      </RectButton>
-    </View>
-
-  );
-}
-
 const Post = ({post}) => {
+  const [modalVisible, setModalVisible] = useState(false);
 
   return(
-    <GestureHandlerRootView>
-      <Swipeable 
-      renderRightActions={() => rightContent(post)}>
+    <View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          // Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <View style={{margin: 2}}>
+              <ColorButton
+                title='Like'
+                onPress={() => {
+                  setModalVisible(!modalVisible)
+                  likePost(post.item)
+                }}
+                color='tomato'/>
+            </View>
+
+            <UserIDContext.Consumer>
+            {(ctValue) => (
+              ctValue.uid.toLowerCase() == post.item.USER_ID.toLowerCase() ? 
+              <View style={{margin: 2}}>
+                <ColorButton
+                title='Delete'
+                onPress={() => {
+                  setModalVisible(!modalVisible)
+                  deletePost(post.item)
+                  ctValue.rfFunc()
+                }}
+                color='lightslategrey'/>
+              </View> : <View></View>
+            )}
+            </UserIDContext.Consumer>
+
+            <View style={{margin: 2}}>
+              <MyButton
+                title='Cancel'
+                onPress={() => {
+                  setModalVisible(!modalVisible)
+                }}/>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      <Pressable
+        onPress={() => setModalVisible(true)}>
         <View style={post.index == 0 ? styles.post_top : styles.post}>
           <Text style={styles.id}>@{post.item.USER_ID}</Text>
           <Text style={styles.text}>{post.item.TEXT}</Text>
         </View>
-      </Swipeable>
-    </GestureHandlerRootView>
+      </Pressable>
+    </View>
+
+        // <View style={post.index == 0 ? styles.post_top : styles.post}>
+        //   <Text style={styles.id}>@{post.item.USER_ID}</Text>
+        //   <Text style={styles.text}>{post.item.TEXT}</Text>
+        // </View>
+
   )
 }
 
@@ -141,6 +167,29 @@ const styles = StyleSheet.create({
   },
   del_button: {
     backgroundColor: 'red'
+  },
+
+
+
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
   }
 });
 

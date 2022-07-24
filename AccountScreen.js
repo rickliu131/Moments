@@ -3,7 +3,7 @@ import { View, Text, TextInput, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
 import url from './url';
-import MyButton from './MyButton';
+import { MyButton } from './MyButton';
 
 const AccountScreen = () => {
 
