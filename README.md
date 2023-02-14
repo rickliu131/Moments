@@ -2,7 +2,7 @@
 Cross-platform microblog app. Inspired by Twitter and WeChat Moments.
 
 # Implementation
-Front-end (this repo): ReactNative (used ReactNavigation for UI)
+Front-end (this repo): ReactNative (used ReactNavigation for UI)<br>
 Back-end: Express.js + MySQL
 
 # Usage
