@@ -1,6 +1,10 @@
 # Moments
 Cross-platform microblog app. Inspired by Twitter and WeChat Moments.
 
+# Implementation
+Front-end (this repo): ReactNative (used ReactNavigation for UI)
+Back-end: Express.js + MySQL
+
 # Usage
 1. Clone
 2. `expo start`
